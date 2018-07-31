@@ -31,27 +31,38 @@ void InitTable(HashStruct hashT[], int TableSize)
 }
 
 int Hash_1(char *key) {
-	return 0;
+	int hashIndex = int(key[0] % TABLESIZE);
+	return hashIndex;
 }
 
 int Hash_2(char *key) {
-	return 0;
+	int hashIndex = (int(key[2] + int(key[3])) % TABLESIZE);
+	return hashIndex;
 }
 
 int Hash_3(char *key) {
-	return 0;
+	int hashIndex = int(key[2] % TABLESIZE);
+	return hashIndex;
 }
 
 int ProbeDec_1 (char *key) {
-	return 1;
+	//Liner Probing Example "Nos Touches"
+	int probeAmt = int((key[0] + 1) % TABLESIZE);
+	return probeAmt;
 }
 
 int ProbeDec_2 (char *key) {
-	return 1;
+	//Base 26
+	long index =  ((key[0]-'A')*pow(26,3)) +
+		((key[1]-'A')*pow(26,2)) +
+		((key[2]-'A')*26) +
+		((key[3]-'A')) % TABLESIZE;
+	return index;
 }
 
 int ProbeDec_3 (char *key) {
-	return 1;
+	long index = (key[1] + key[2] * key[1] + key[2]) % TABLESIZE;
+	return index;
 }
 
 
@@ -99,27 +110,41 @@ int HashInsert(HashStruct T[], char *key, int data, int hNum, int dhNum)
             case 8 :  // Hash function 3 -- Double hash 3  
                     hashIndex = Hash_3(key);
                     probeDec = ProbeDec_3(key);
+					//cout<<"Key: " << key << endl;
                     break;
     }
 
-    // Find a place to insert into the table
-    while(strcmp(T[hashIndex].key, EMPTYKEY) != 0)
-    {
-            colCount++;
-            hashIndex -= probeDec;  // Decrementing was chosen you could also choose to
-            if(hashIndex < 0)    //  increment and wrap back to the beginning of the table.
-                hashIndex = hashIndex + TABLESIZE;
-    }
-	return 0;
+	// Find a place to insert into the table
+	int maxTimeOut = 0;
+
+	while(strcmp(T[hashIndex].key, EMPTYKEY) != 0)
+	{
+		
+		//Incase of a hang-up
+		if (maxTimeOut > 20) 
+			probeDec = 1;
+		
+		colCount++;
+		hashIndex += probeDec;
+
+		if(hashIndex > TABLESIZE)
+			hashIndex = 0;
+
+		maxTimeOut++;
+	}
+
+	strcpy(T[hashIndex].key, key);
+
+	return colCount;
 }
 
 int main() {	
 
-	//1
+	 //1
 	 //==============================================================================
      int          i, hashNum, dHashNum, count;
      ifstream     *inFile;
-     HashStruct   T[100];  // Hash table srray of 100 data structures
+     HashStruct   T[100];  // Hash table array of 100 data structures
      char         line[64];// Array to hold lines read from file
      char         key[5];  // Array to hold 4-character keys
      int          data;    // Integer data
@@ -128,12 +153,13 @@ int main() {
 	  // For each of three hash functions
       for(hashNum = 0; hashNum < 3; hashNum++)
       {
+		 cout << "\n\n*****************************************  Current Set: " << hashNum+1 << "  **************************************************\n\n" << endl;
          // For each of three double hash functions
          for(dHashNum = 0; dHashNum < 3; dHashNum++)
          {
             InitTable(T, TABLESIZE);               // Call function to initialize table to empty
             inFile = new ifstream();
-            inFile->open("C:/Users/jrc0051/Desktop/P4Data.txt", ifstream::in);   // Open data file for this test
+            inFile->open("C:/Users/rancr/Desktop/Project_4_Hashing_Algoritms-master/P4Data.txt", ifstream::in);   // Open data file for this test
             if(!inFile->is_open())
             {
                cout << "Unable to open data file. Program terminating\n";
@@ -152,21 +178,33 @@ int main() {
             }
             inFile->close();		/* Close the text file */
             delete inFile;
+
+			//3
+			cout << "Testing hash function " << hashNum+1 << " using double hash " << dHashNum+1 << ".\n";
+			
+			switch(dHashNum+1) {
+
+			case 1: cout << "Hash function type: Liner Probing" << endl;
+				break;
+				
+			case 2: cout << "Hash function type: Base-26" << endl;
+				break;
+
+			case 3: cout << "Hash function type: Middle Squaring" << endl;
+				break;
+			}
+
+			cout << "Total collisions = " << count << ".\n";
+			// Show the form of the array
+			for(int i=0; i < 100; i++)
+				if(strcmp(T[i].key, EMPTYKEY)) // strcmp gives a non-zero (true) result if Key is NOT the EMPTYKEY
+					cout << "|";     // Indicate an entry at this location
+				else
+					cout << "-";     // Indicate no entry at this location
+			cout << "\n\n";
 		 }
       }
 
-	  		 	  //3
-	  cout << "Testing hash function " << hashNum << " using double hash " << dHashNum << ".\n";
-      cout << "Total collisions = " << count << ".\n";
-      // Show the form of the array
-      for(int i=0; i < 100; i++)
-          if(strcmp(T[i].key, EMPTYKEY)) // strcmp gives a non-zero (true) result if Key is NOT the EMPTYKEY
-              cout << "|";     // Indicate an entry at this location
-          else
-              cout << "-";     // Indicate no entry at this location
-      cout << "\n\n";
-
 	system("pause");
 	return 0;
-
 }

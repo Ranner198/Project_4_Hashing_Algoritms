@@ -1,0 +1,61 @@
+
+
+*****************************************  Current Set: 1  **************************************************
+
+
+Testing hash function 1 using double hash 1.
+Hash function type: Liner Probing
+Total collisions = 1610.
+||||||||||||||||||||||||||||||||||||||||-------------------------||--||--||----||----||-------------
+
+Testing hash function 1 using double hash 2.
+Hash function type: Base-26
+Total collisions = 1915.
+|||||||||||||||||||||||||||||||||||||||||||||--------------------|---|---|-----|-----|--------------
+
+Testing hash function 1 using double hash 3.
+Hash function type: Middle Squaring
+Total collisions = 1157.
+||||||||||||||||||||||||||||--------------|--------------|-|---|-|---|---|---|-|----|||||||||||||---
+
+
+
+*****************************************  Current Set: 2  **************************************************
+
+
+Testing hash function 2 using double hash 1.
+Hash function type: Liner Probing
+Total collisions = 1432.
+||||||||||||||||||||||||||||||||||||||-----|---|||||-|---|------------|---|-----|-----|-------------
+
+Testing hash function 2 using double hash 2.
+Hash function type: Base-26
+Total collisions = 1666.
+||||||||||||||||||||||||||||||||||||||||||-|---|||||-|---|------------------------------------------
+
+Testing hash function 2 using double hash 3.
+Hash function type: Middle Squaring
+Total collisions = 812.
+|||||||||||||||||||||||-------------|-----||---|||||-|---|-|---||||||||---|--|------||---|||---|----
+
+
+
+*****************************************  Current Set: 3  **************************************************
+
+
+Testing hash function 3 using double hash 1.
+Hash function type: Liner Probing
+Total collisions = 1610.
+||||||||||||||||||||||||||||||||||||||||-------------------------||--||--||----||-|---|-------------
+
+Testing hash function 3 using double hash 2.
+Hash function type: Base-26
+Total collisions = 1915.
+|||||||||||||||||||||||||||||||||||||||||||||--------------------|---|---|-----|--|-----------------
+
+Testing hash function 3 using double hash 3.
+Hash function type: Middle Squaring
+Press any key to continue . . . 
+Total collisions = 1132.
+||||||||||||||||||||||||------------------|--------------|-|---|-|---|---|---|-|--|-||||||||||||||||
+
